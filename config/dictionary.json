@@ -1,0 +1,45 @@
+{
+    "en_US":{
+        "commandDescriptions":{
+            "test":"Basic command to check if the bot is working properly",
+            "join":"Join a voice channel",
+            "leave":"Leave a voice channel"
+        },
+        "interactions":{
+            "typing":"Typing...",
+            "salute":"Hello",
+            "join":"Joining voice channel. Bear in mind that all the bot's chat replies will be deactivated until the voice chat session is ended.",
+            "leave":"Leaving the voice chat.",
+            "errors":{
+                "initializeError":"An error occured while trying to initialize the CharacterAI bot, check the app logs for more details.",
+                "contactAPIError":"An error occured while trying to contact the CharacterAI API, check the app logs for more details.",
+                "unexpectedError":"An unexpected error occured. check the app logs for more details.",
+                "notConnectedToVoiceChannel":"You must be connected to a voice channel to execute this command.",
+                "leavingNoChannel":"I am not in a voice channel."
+            }
+        }
+        
+    },
+    "es_UY":{
+        "commandDescriptions":{
+            "test":"Comando básico para comprobar si el bot esta funcionando correctamente",
+            "join":"Unirse a un canal de voz",
+            "leave":"Abandonar un canal de voz"
+        },
+        "interactions":{
+            "typing":"Escribiendo...",
+            "salute":"Hola",
+            "join":"Uniéndose al canal de voz. Ten en cuenta que todas las respuestas del bot por mensaje de texto estarán desactivadas hasta que la sesión del canal de voz termine.",
+            "leave":"Saliéndose del chat de voz.",
+            "errors":{
+                "initializeError":"Ha ocurrido un error mientras se intentaba inicializar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
+                "contactAPIError":"Ha ocurrido un error mientras se intentaba contactar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
+                "unexpectedError":"Ha ocurrido un error inesperado. Revisa los logs de la app para más detalles.",
+                "notConnectedToVoiceChannel":"Debes estar conectado a un canal de voz para ejecutar este comando.",
+                "leavingNoChannel":"No estoy conectado a un canal de voz."
+
+            }
+        }
+        
+    }
+}
