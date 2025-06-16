@@ -17,30 +17,42 @@ async function createConnection() {
         return "OK";
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return "FAIL"
     }
 };
 
 async function createAIVoiceConnection() {
     try {
+        console.log('Importing client...');
         client = new(await (import('cainode'))).CAINode();
+        console.log('Logging in...');
         await client.login(process.env.CHARACTERAI_TOKEN);
+        console.log('Connecting client...');
         await client.character.connect(process.env.CHARACTERAI_ID);
+        console.log('Setting up characterInfo...');
         await setCharacterInfo();
-
+        console.log('Connecting voice...');
         clientVoice = await client.voice.connect(process.env.CHARACTERAI_VOICENAME, true, true);
+        console.log(clientVoice);
+        global.isVoiceChat = true;
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 };
 
 async function endConnection() {
-    if(global.isVoiceChat) await clientVoice.disconnect();
+    if(global.isVoiceChat == true){
+        await clientVoice.disconnect();
+        clientVoice = null;
+
+    } 
+
     await client.character.disconnect();
     await client.logout();
 
     client = null;
+    characterInfo = null;
 };
 
 async function getReply(interaction, message) {

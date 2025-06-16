@@ -13,11 +13,9 @@ module.exports = {
 	async execute(interaction) {
         if(interaction.member.voice.channelId){
             if(global.isVoiceChat == false){
-                global.isVoiceChat = true;
                 await interaction.reply(dictionary[language].interactions.join);
                 await createAIVoiceConnection();
                 await startCharacterAudioPlayback(interaction);
-
             }
         }else{
             await interaction.reply(dictionary[language].interactions.errors.notConnectedToVoiceChannel);

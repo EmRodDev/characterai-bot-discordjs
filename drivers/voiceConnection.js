@@ -1,13 +1,12 @@
 require('dotenv').config();
-const { joinVoiceChannel, createAudioResource, createAudioPlayer,StreamType, AudioPlayerStatus} = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioResource, createAudioPlayer, StreamType, AudioPlayerStatus } = require('@discordjs/voice');
 const prism = require('prism-media');
 const { Readable } = require('stream');
 
-
-const {getAIVoiceConnection, endConnection } = require('./characterAIManagement');
+const { getAIVoiceConnection, endConnection } = require('./characterAIManagement');
+const { upsampleFrame } = require('./utils');
 
 // Internal state
-let pcmQueue = [];
 let liveStream = null;
 let player = null;
 let voiceConnection = null;
@@ -16,6 +15,7 @@ let senderSpeaking = false;
 let aiVoice = null;
 
 function startCharacterAudioPlayback(interaction) {
+
     voiceConnection = joinVoiceChannel({
         channelId: interaction.member.voice.channelId,
         guildId: interaction.guild.id,
@@ -28,7 +28,7 @@ function startCharacterAudioPlayback(interaction) {
 
     // Prepare live stream
     liveStream = new Readable({
-        read() {}
+        read() { }
     });
 
 
@@ -65,6 +65,7 @@ function setUpVoiceChatSpeaker() {
 
 
 function captureAndHandleVoices() {
+
     receiver.speaking.on('start', (userId) => {
         if (userId === voiceConnection.joinConfig.selfDeaf) return;
         if (senderSpeaking) return;
@@ -97,7 +98,7 @@ function captureAndHandleVoices() {
                 senderSpeaking = false;
             }, 1000);
         });
-        
+
         audioStream.on('error', console.error);
     });
 }
@@ -106,43 +107,40 @@ function getAIResponse() {
     aiVoice.on("frameReceived", ev => {
         const rawFrame = Buffer.from(ev.value.data.buffer);
         const fixedFrame = upsampleFrame(rawFrame)
-        if(liveStream != null) liveStream.push(fixedFrame);
+        if (liveStream != null) liveStream.push(fixedFrame);
     });
 }
 
-function upsampleFrame(frame) {
-    // If frame is 960 bytes (480 samples), duplicate each byte to get 1920
-    const upsampled = Buffer.alloc(1920);
 
-    for (let i = 0; i < 960; i += 2) {
-        // Read 16-bit sample
-        const sample = frame.readInt16LE(i);
-        // Duplicate the sample (write twice)
-        upsampled.writeInt16LE(sample, i * 2);
-        upsampled.writeInt16LE(sample, i * 2 + 2);
-    }
-
-    return upsampled;
-}
 
 // Call this when bot leaves VC or to stop audio
 async function stopCharacterAudioPlayback() {
     if (player) {
-        player.stop();
+        await player.stop();
         player = null;
     }
 
     if (voiceConnection) {
-        voiceConnection.destroy();
+        await voiceConnection.destroy();
         voiceConnection = null;
     }
 
-    pcmQueue = [];
-    liveStream = null;
+    if (receiver) {
+        await receiver.speaking.removeAllListeners('start');
+        receiver = null;
+    }
+
+    if (aiVoice) {
+        await aiVoice.removeAllListeners('frameReceived');
+        aiVoice = null;
+    }
 
     await endConnection();
+    liveStream = null;
+    senderSpeaking = false;
 
     console.log('Left the voice chat');
+
 }
 
 module.exports = { startCharacterAudioPlayback, stopCharacterAudioPlayback, captureAndHandleVoices }
