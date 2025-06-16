@@ -3,13 +3,17 @@
         "commandDescriptions":{
             "test":"Basic command to check if the bot is working properly",
             "join":"Join a voice channel",
-            "leave":"Leave a voice channel"
+            "leave":"Leave a voice channel",
+            "mode":"Allows you to switch the bot's messages from text to TTS, and vice versa",
+            "mode_option":"'text' or 'TTS'"
         },
         "interactions":{
-            "typing":"Typing...",
+            "typing":"Processing...",
             "salute":"Hello,",
             "join":"Joining voice channel. Bear in mind that all the bot's chat replies will be deactivated until the voice chat session is ended.",
             "leave":"Leaving the voice chat.",
+            "textMode":"Text mode activated.",
+            "ttsMode":"TTS mode activated.",
             "errors":{
                 "initializeError":"An error occured while trying to initialize the CharacterAI bot, check the app logs for more details.",
                 "contactAPIError":"An error occured while trying to contact the CharacterAI API, check the app logs for more details.",
@@ -17,7 +21,9 @@
                 "notConnectedToVoiceChannel":"You must be connected to a voice channel to execute this command.",
                 "leavingNoChannel":"I am not in a voice channel.",
                 "alreadyInVoiceChannel":"I am in a voice channel already!",
-                "cannotReplyWhileInVoiceChannel":"I cannot chat with you through text messages while being on a voice channel. Try to end the voice session first by executing the /leave command."
+                "cannotReplyWhileInVoiceChannel":"I cannot chat with you through text messages while being on a voice channel. Try to end the voice session first by executing the /leave command.",
+                "modeAlreadySelected":"The mode specified is already activated.",
+                "invalidMode":"The mode specified is not valid."
             }
         }
         
@@ -26,13 +32,17 @@
         "commandDescriptions":{
             "test":"Comando básico para comprobar si el bot esta funcionando correctamente",
             "join":"Unirse a un canal de voz",
-            "leave":"Abandonar un canal de voz"
+            "leave":"Abandonar un canal de voz",
+            "mode":"Te permite alternar los mensajes del bot de texto a TTS y viceversa",
+            "mode_option":"'text' o 'TTS'"
         },
         "interactions":{
-            "typing":"Escribiendo...",
+            "typing":"Procesando...",
             "salute":"Hola,",
             "join":"Uniéndose al canal de voz. Ten en cuenta que todas las respuestas del bot por mensaje de texto estarán desactivadas hasta que la sesión del canal de voz termine.",
             "leave":"Saliéndose del chat de voz.",
+            "textMode":"Modo texto activado.",
+            "ttsMode":"Modo TTS activado.",
             "errors":{
                 "initializeError":"Ha ocurrido un error mientras se intentaba inicializar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
                 "contactAPIError":"Ha ocurrido un error mientras se intentaba contactar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
@@ -40,8 +50,9 @@
                 "notConnectedToVoiceChannel":"Debes estar conectado a un canal de voz para ejecutar este comando.",
                 "leavingNoChannel":"No estoy conectado a un canal de voz.",
                 "alreadyInVoiceChannel":"¡Ya estoy dentro de un canal de voz!",
-                "cannotReplyWhileInVoiceChannel":"No puedo conversar contigo mientras estoy en un canal de voz. Primero intenta terminar la sesión de voz con el comando /leave"
-
+                "cannotReplyWhileInVoiceChannel":"No puedo conversar contigo mientras estoy en un canal de voz. Primero intenta terminar la sesión de voz con el comando /leave",
+                "modeAlreadySelected":"El modo especificado ya está activo.",
+                "invalidMode":"El modo especificado no es válido"
             }
         }
         

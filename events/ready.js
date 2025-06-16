@@ -4,7 +4,8 @@ module.exports = {
 	name: Events.ClientReady,
 	once: true,
 	execute(client) {
-		console.log(`Ready! Logged in as ${client.user.tag}`);
 		global.isVoiceChat = false;
+		global.messageMode = 'text';
+		console.log(`Ready! Logged in as ${client.user.tag}`);
 	},
 };
