@@ -19,6 +19,9 @@ module.exports = {
             //Restarts the bot since the client.character.voice.connect() doesn't work properly when trying to connect the bot to vc a second time
             restartBot();
         }
+        else{            
+            await interaction.reply(dictionary[language].interactions.errors.leavingNoChannel);
+        }
 
     },
 };

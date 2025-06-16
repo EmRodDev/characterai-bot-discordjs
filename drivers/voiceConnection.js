@@ -106,7 +106,7 @@ function captureAndHandleVoices() {
 function getAIResponse() {
     aiVoice.on("frameReceived", ev => {
         const rawFrame = Buffer.from(ev.value.data.buffer);
-        const fixedFrame = upsampleFrame(rawFrame)
+        const fixedFrame = upsampleFrame(rawFrame);
         if (liveStream != null) liveStream.push(fixedFrame);
     });
 }

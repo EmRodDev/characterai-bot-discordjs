@@ -12,8 +12,8 @@ module.exports = {
 		if (message.author.bot) return false;
 
 		if (message.mentions.users.has(process.env.CLIENT_ID)) {
-			if(global.isVoiceChat){
-
+			if(global.isVoiceChat == true){
+				await message.reply(dictionary[language].interactions.errors.cannotReplyWhileInVoiceChannel);
 			}else{
 				const botReply = await message.reply(dictionary[language].interactions.typing);
 				let connection = await createConnection();

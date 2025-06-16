@@ -7,7 +7,7 @@
         },
         "interactions":{
             "typing":"Typing...",
-            "salute":"Hello",
+            "salute":"Hello,",
             "join":"Joining voice channel. Bear in mind that all the bot's chat replies will be deactivated until the voice chat session is ended.",
             "leave":"Leaving the voice chat.",
             "errors":{
@@ -15,7 +15,9 @@
                 "contactAPIError":"An error occured while trying to contact the CharacterAI API, check the app logs for more details.",
                 "unexpectedError":"An unexpected error occured. check the app logs for more details.",
                 "notConnectedToVoiceChannel":"You must be connected to a voice channel to execute this command.",
-                "leavingNoChannel":"I am not in a voice channel."
+                "leavingNoChannel":"I am not in a voice channel.",
+                "alreadyInVoiceChannel":"I am in a voice channel already!",
+                "cannotReplyWhileInVoiceChannel":"I cannot chat with you through text messages while being on a voice channel. Try to end the voice session first by executing the /leave command."
             }
         }
         
@@ -28,7 +30,7 @@
         },
         "interactions":{
             "typing":"Escribiendo...",
-            "salute":"Hola",
+            "salute":"Hola,",
             "join":"Uniéndose al canal de voz. Ten en cuenta que todas las respuestas del bot por mensaje de texto estarán desactivadas hasta que la sesión del canal de voz termine.",
             "leave":"Saliéndose del chat de voz.",
             "errors":{
@@ -36,7 +38,9 @@
                 "contactAPIError":"Ha ocurrido un error mientras se intentaba contactar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
                 "unexpectedError":"Ha ocurrido un error inesperado. Revisa los logs de la app para más detalles.",
                 "notConnectedToVoiceChannel":"Debes estar conectado a un canal de voz para ejecutar este comando.",
-                "leavingNoChannel":"No estoy conectado a un canal de voz."
+                "leavingNoChannel":"No estoy conectado a un canal de voz.",
+                "alreadyInVoiceChannel":"¡Ya estoy dentro de un canal de voz!",
+                "cannotReplyWhileInVoiceChannel":"No puedo conversar contigo mientras estoy en un canal de voz. Primero intenta terminar la sesión de voz con el comando /leave"
 
             }
         }

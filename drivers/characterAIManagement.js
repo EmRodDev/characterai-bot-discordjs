@@ -34,7 +34,6 @@ async function createAIVoiceConnection() {
         await setCharacterInfo();
         console.log('Connecting voice...');
         clientVoice = await client.voice.connect(process.env.CHARACTERAI_VOICENAME, true, true);
-        console.log(clientVoice);
         global.isVoiceChat = true;
     } catch (err) {
         console.error(err);

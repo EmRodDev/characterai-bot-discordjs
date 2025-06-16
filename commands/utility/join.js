@@ -17,6 +17,9 @@ module.exports = {
                 await createAIVoiceConnection();
                 await startCharacterAudioPlayback(interaction);
             }
+            else{
+                await interaction.reply(dictionary[language].interactions.errors.alreadyInVoiceChannel);
+            }
         }else{
             await interaction.reply(dictionary[language].interactions.errors.notConnectedToVoiceChannel);
         }
