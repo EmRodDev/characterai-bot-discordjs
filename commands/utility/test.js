@@ -8,6 +8,6 @@ module.exports = {
 		.setName('test')
 		.setDescription(dictionary[language].commandDescriptions.test),
 	async execute(interaction) {
-		await interaction.reply(`${dictionary[language].interactions.salute} ${interaction.user.tag}`);
+		await interaction.reply(`${dictionary[language].interactions.salute} ${interaction.user.globalName}`);
 	}
 }

@@ -57,7 +57,7 @@ async function endConnection() {
 
 async function getReply(interaction, message) {
     try {
-        const response = await client.character.send_message(message.content);
+        const response = await client.character.send_message(`${process.env.ADD_NICKNAME_TO_PROMPT == 'true' ? interaction.mentions.repliedUser.globalName+':': ''} ${new RegExp('<@.*_?>').test(message.content) == true ? message.content.replace(/<@.*_?>/g,'') : message.content}`);
 
         if (response.turn.state == 'STATE_OK') {
             const rawMessage = response.turn.candidates[0].raw_content;
