@@ -1,10 +1,10 @@
 require('dotenv').config();
-const { joinVoiceChannel, createAudioResource, createAudioPlayer, StreamType, AudioPlayerStatus } = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioResource, createAudioPlayer, StreamType, AudioPlayerStatus, VoiceConnectionStatus} = require('@discordjs/voice');
 const prism = require('prism-media');
 const { Readable } = require('stream');
 
 const { getAIVoiceConnection, endConnection } = require('./characterAIManagement');
-const { upsampleFrame } = require('./utils');
+const { upsampleFrame, restartBot } = require('./utils');
 
 // Internal state
 let liveStream = null;
@@ -25,19 +25,28 @@ function startCharacterAudioPlayback(interaction) {
 
     receiver = voiceConnection.receiver;
     aiVoice = getAIVoiceConnection();
-
-    // Prepare live stream
     liveStream = new Readable({
         read() { }
     });
 
-
     setUpVoiceChatSpeaker();
     captureAndHandleVoices();
+    checkVoiceConnectionChange();
     getAIResponse();
 
     console.log('Successfully joined voice chat');
 
+}
+
+function checkVoiceConnectionChange() {
+    voiceConnection.on('stateChange', async (oldState, newState) => {
+        if (newState.status === VoiceConnectionStatus.Disconnected) {
+            await stopCharacterAudioPlayback();
+            global.isVoiceChat = false;
+            restartBot();
+            
+        }
+    });
 }
 
 function setUpVoiceChatSpeaker() {

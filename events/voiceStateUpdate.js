@@ -1,6 +1,7 @@
 const { Events } = require('discord.js');
 const { client: discordClient } = require('../drivers/clientSetup.js');
 const { stopCharacterAudioPlayback } = require('../drivers/voiceConnection.js');
+const { restartBot } = require('../drivers/utils.js');
 
 module.exports = {
 	name: Events.VoiceStateUpdate,
@@ -13,8 +14,9 @@ module.exports = {
 
 			if (botMember && members.size === 0) {
 				// Bot is alone, leave the voice channel
-				stopCharacterAudioPlayback();
+				await stopCharacterAudioPlayback();
 				global.isVoiceChat = false;
+				restartBot();
 
 			}
 
