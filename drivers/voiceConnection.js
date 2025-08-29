@@ -117,6 +117,7 @@ function getAIResponse() {
         const rawFrame = Buffer.from(ev.value.data.buffer);
         const fixedFrame = upsampleFrame(rawFrame);
         if (liveStream != null) liveStream.push(fixedFrame);
+
     });
 }
 

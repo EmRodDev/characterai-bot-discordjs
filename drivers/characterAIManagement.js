@@ -6,7 +6,6 @@ const { AttachmentBuilder } = require('discord.js');
 
 let client = null;
 let clientVoice = null;
-let characterInfo = null;
 
 async function createConnection() {
 
@@ -32,7 +31,7 @@ async function createAIVoiceConnection() {
         console.log('Connecting client...');
         await client.character.connect(process.env.CHARACTERAI_ID);
         console.log('Setting up characterInfo...');
-        await setCharacterInfo();
+        //await setCharacterInfo();
         console.log('Connecting voice...');
         clientVoice = await client.voice.connect(process.env.CHARACTERAI_VOICENAME, true, true);
         global.isVoiceChat = true;
