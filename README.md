@@ -65,7 +65,6 @@ A Discord bot that integrates with Character AI to enable interactive voice and 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these steps.
 
 ### Prerequisites
