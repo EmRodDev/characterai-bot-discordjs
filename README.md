@@ -1,21 +1,80 @@
-# Character AI Discord Bot
+<a id="readme-top"></a>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+<h3 align="center">characterai-bot-discordjs</h3>
+
+  <p align="center">
+    A Discord bot that integrates with Character AI to enable interactive voice and text conversations in Discord voice channels.
+    <br />
+    <a href="https://github.com/EmRodDev/characterai-bot-discordjs/issues/new?labels=bug">Report Bug</a>
+    &middot;
+    <a href="https://github.com/EmRodDev/characterai-bot-discordjs/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
+
+
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#commands">Commands</a></li>
+    <li><a href="#project-structure">Project Structure</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
 A Discord bot that integrates with Character AI to enable interactive voice and text conversations in Discord voice channels. The bot can join voice chats, respond using Character AI, and support both text and TTS (text-to-speech) modes.
 
-## Features
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-- Join/leave voice channels with AI interaction.
-- Switch between text and TTS modes.
-- Multi-language support via dictionary config.
-- Docker deployment for easy setup.
 
-## Prerequisites
+
+### Built With
+
+* [Node.js](https://nodejs.org/en)
+* [Discord.js](https://discord.js.org/)
+* [CAINode](https://github.com/KevinAdhaikal/CAINode)
+* [Docker](https://www.docker.com/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these steps.
+
+### Prerequisites
 
 - Node.js 20+
 - Discord bot token and application client ID (create at [Discord Developer Portal](https://discord.com/developers/applications)).
 - Character AI account and token (for API access).
 
-## Local Setup
+### Installation
 
 1. Clone the repository:
    ```
@@ -51,7 +110,7 @@ A Discord bot that integrates with Character AI to enable interactive voice and 
 
 The bot will log in to Discord and register slash commands.
 
-## Deployment with Docker
+#### Deployment with Docker
 
 This project includes Docker support for containerized deployment.
 
@@ -73,14 +132,21 @@ To stop:
 docker-compose down
 ```
 
-## Available Commands
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- USAGE EXAMPLES -->
+## Commands
 
 All commands are slash commands (`/command`) and support the configured language.
 
-- **/join**
-  - Description: Makes the bot join your current voice channel and start Character AI interaction.
+- **/join (WIP)**
+  - Description: Makes the bot join your current voice channel and starts listening and speaking to a user.
   - Requirements: You must be in a voice channel.
-  - Behavior: If not already in voice, connects and starts audio/text playback based on mode.
+  - Behavior: 
+    - Currently, it can only listen to one person at a time, and stops speaking if the user doesn't interact with it for a while (two minutes approximately).
+    - Interaction through text channel is disabled while on this mode until it leaves. 
 
 - **/leave**
   - Description: Makes the bot leave the voice channel and stop the interaction.
@@ -97,11 +163,9 @@ All commands are slash commands (`/command`) and support the configured language
   - Description: Simple test command to verify the bot is working.
   - Response: Greets the user in the configured language.
 
-## Configuration
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-- **Language**: Set `LANGUAGE` in `.env` (e.g., `en_US`). Dictionary translations are in `config/dictionary.json`.
-- **Character AI**: Customize the character and voice via `CHARACTERAI_ID`, `CHARACTERAI_TOKEN`, and `CHARACTERAI_VOICENAME`.
-- **Prompts**: `ADD_NICKNAME_TO_PROMPT` includes user nicknames in AI prompts for personalized responses.
+
 
 ## Project Structure
 
@@ -111,6 +175,8 @@ All commands are slash commands (`/command`) and support the configured language
 - `events/`: Discord event handlers (ready, interactions, voice updates).
 - `config/dictionary.json`: Multi-language strings.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Troubleshooting
 
 - Ensure bot has permissions: `Connect`, `Speak`, `Use Slash Commands` in voice channels.
@@ -118,10 +184,10 @@ All commands are slash commands (`/command`) and support the configured language
 - For Character AI issues, verify token and ID.
 - Logs: Check console output for errors.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Contributing
 
 Fork the repo, make changes, and submit a PR. See GitHub for issues.
 
-## License
-
-[MIT License](LICENSE) (assuming standard; check repo).
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
