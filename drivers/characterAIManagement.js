@@ -12,8 +12,9 @@ async function createConnection() {
     try {
         client = new (await (import('cainode'))).CAINode();
         await client.login(process.env.CHARACTERAI_TOKEN);
-        await client.character.connect(process.env.CHARACTERAI_ID);
-        await setCharacterInfo();
+
+        const character = await client.character.connect(process.env.CHARACTERAI_ID);
+        await setCharacterInfo(character);
         return "OK";
 
     } catch (err) {
@@ -29,11 +30,14 @@ async function createAIVoiceConnection() {
         console.log('Logging in...');
         await client.login(process.env.CHARACTERAI_TOKEN);
         console.log('Connecting client...');
-        await client.character.connect(process.env.CHARACTERAI_ID);
+        const character = await client.character.connect(process.env.CHARACTERAI_ID);
         console.log('Setting up characterInfo...');
-        //await setCharacterInfo();
+        await setCharacterInfo(character);
         console.log('Connecting voice...');
-        clientVoice = await client.voice.connect(process.env.CHARACTERAI_VOICENAME, true, true);
+        if(process.env.CHARACTERAI_VOICENAME){
+            clientVoice = await client.voice.connect(process.env.CHARACTERAI_VOICENAME, true, true);
+        }
+        clientVoice = await client.voice.connect(characterInfo.default_voice_id, false, true);
         global.isVoiceChat = true;
     } catch (err) {
         console.error(err);
@@ -51,6 +55,7 @@ async function endConnection() {
 
     client = null;
     characterInfo = null;
+    global.isVoiceChat = false;
 };
 
 async function getReply(interaction, message) {
@@ -88,8 +93,8 @@ async function replyWithAudio(interaction,response){
         await client.character.replay_tts(
         response.turn.turn_key.turn_id,
         response.turn.candidates[0].candidate_id,
-        process.env.CHARACTERAI_VOICENAME,
-        true
+        process.env.CHARACTERAI_VOICENAME ?? characterInfo.default_voice_id,
+        process.env.CHARACTERAI_VOICENAME ? true : false
     ))).replayUrl;
 
     const res = await fetch(ttsUrl);
@@ -114,10 +119,19 @@ function getClient() {
     return client;
 }
 
-async function setCharacterInfo() {
-    const character = await client.character.info(process.env.CHARACTERAI_ID);
-    const characterInfoString = JSON.stringify(character.character);
-    characterInfo = await JSON.parse(characterInfoString)
+async function setCharacterInfo(character) {
+    try {
+        const character = await client.character.info(process.env.CHARACTERAI_ID);
+        const characterInfoString = JSON.stringify(character.character);
+        characterInfo = await JSON.parse(characterInfoString)
+    } catch (error) {
+        console.warn(`An error occurred while fetching character info: ${error}`);
+        if(await error.message?.includes("Unexpected token")){
+            console.warn("This is likely due to a CAINode JSON parsing issue. Assigning the character object instead.");
+            characterInfo = character.chats[0];
+        }
+    }
+
 }
 
 module.exports = { createConnection, createAIVoiceConnection, endConnection, getReply, getAIVoiceConnection, getClient };
