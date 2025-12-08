@@ -5,7 +5,11 @@
             "join":"Join a voice channel",
             "leave":"Leave a voice channel",
             "mode":"Allows you to switch the bot's messages from text to TTS, and vice versa",
-            "mode_option":"'text' or 'TTS'"
+            "mode_option":"'text' or 'TTS'",
+            "say":"Say something through the bot",
+            "say_channel":"Choose the channel to where you want to send the message",
+            "say_message":"Specify the message here"
+
         },
         "interactions":{
             "typing":"Processing...",
@@ -34,7 +38,12 @@
             "join":"Unirse a un canal de voz",
             "leave":"Abandonar un canal de voz",
             "mode":"Te permite alternar los mensajes del bot de texto a TTS y viceversa",
-            "mode_option":"'text' o 'TTS'"
+            "mode_option":"'text' o 'TTS'",
+            "say":"Decir algo desde el bot",
+            "say_channel":"Escoge el canal en donde quieres enviar el mensaje",
+            "say_message":"Especifica el mensaje aquí"
+
+            
         },
         "interactions":{
             "typing":"Procesando...",
