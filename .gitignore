@@ -1,2 +1,5 @@
 .env
 node_modules
+config/values.json
+data/greeted/*
+data/greetingMessages/*

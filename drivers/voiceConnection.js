@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { joinVoiceChannel, createAudioResource, createAudioPlayer, StreamType, AudioPlayerStatus, VoiceConnectionStatus} = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioResource, createAudioPlayer, StreamType, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
 const prism = require('prism-media');
 const { Readable } = require('stream');
 
@@ -44,7 +44,7 @@ function checkVoiceConnectionChange() {
             await stopCharacterAudioPlayback();
             global.isVoiceChat = false;
             restartBot();
-            
+
         }
     });
 }
@@ -59,8 +59,9 @@ function setUpVoiceChatSpeaker() {
     player.play(resource);
     voiceConnection.subscribe(player);
 
-    player.on(AudioPlayerStatus.Idle, () => {
+    player.on(AudioPlayerStatus.Idle, async () => {
         console.log('[Voice] Audio player idle.');
+        await stopCharacterAudioPlayback();
     });
 
     player.on('error', error => {

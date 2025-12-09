@@ -8,8 +8,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('say')
         .setDescription(dictionary[language].commandDescriptions.say)
-        .addChannelOption(
-            option =>
+        .addChannelOption(option =>
                 option.setName('channel')
                     .setDescription(dictionary[language].commandDescriptions.say_channel)
                     .addChannelTypes(ChannelType.GuildText)
