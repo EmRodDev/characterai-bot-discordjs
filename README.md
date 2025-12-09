@@ -98,7 +98,7 @@ To get a local copy up and running follow these steps.
      LANGUAGE=en_US  # e.g., en_US, es_ES
      CHARACTERAI_ID=your_character_ai_character_id
      CHARACTERAI_TOKEN=your_character_ai_token
-     CHARACTERAI_VOICENAME=your_tts_voice_name  # e.g., Sonic the Hedgehog
+     CHARACTERAI_VOICENAME=your_tts_voice_name  # e.g., Sonic the Hedgehog. You can remove this variable if the bot is not getting the correct voice.
      ADD_NICKNAME_TO_PROMPT=true  # Add user nickname to AI prompts
      ```
 
