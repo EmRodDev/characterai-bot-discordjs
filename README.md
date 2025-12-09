@@ -71,7 +71,16 @@ To get a local copy up and running follow these steps.
 
 - Node.js 20+
 - Discord bot token and application client ID (create at [Discord Developer Portal](https://discord.com/developers/applications)).
+  - It should have the following permissions set inside the 'Installation' tab:
+    - Scopes: `application.commands, bot`
+    - Permissions: `Attach Files, Connect, Read Message History, Send Messages, Speak, Use Voice Activity, View Channels`
 - Character AI account and token (for API access).
+  - To obtain the token:
+    - Go to the character.ai website
+    - Open your browser inspector (Typically seen by pressing F12)
+    - Go to the 'Application' tab and look for the character.ai URL inside the 'Cookies' section
+    - Log in
+    - There should be a parameter called 'HTTP_AUTORIZATION'. Just copy the value after the 'Token ' text.
 
 ### Installation
 
@@ -98,7 +107,7 @@ To get a local copy up and running follow these steps.
      LANGUAGE=en_US  # e.g., en_US, es_ES
      CHARACTERAI_ID=your_character_ai_character_id
      CHARACTERAI_TOKEN=your_character_ai_token
-     CHARACTERAI_VOICENAME=your_tts_voice_name  # e.g., Sonic the Hedgehog
+     CHARACTERAI_VOICENAME=your_tts_voice_name  # e.g., Sonic the Hedgehog. You can remove this variable if the bot is not getting the correct voice.
      ADD_NICKNAME_TO_PROMPT=true  # Add user nickname to AI prompts
      ```
 

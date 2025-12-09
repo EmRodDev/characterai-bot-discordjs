@@ -58,9 +58,36 @@ async function endConnection() {
     global.isVoiceChat = false;
 };
 
-async function getReply(interaction, message) {
+async function getReply(interaction, message, attachment = null) {
     try {
-        const response = await client.character.send_message(`${process.env.ADD_NICKNAME_TO_PROMPT == 'true' ? interaction.mentions.repliedUser.globalName + ':' : ''} ${new RegExp('<@.*_?>').test(message.content) == true ? message.content.replace(/<@.*_?>/g, '') : message.content}`);
+        // Replace mentions with empty string
+        let cleanedMessage = (new RegExp('<@.*_?>').test(message.content) == true ? message.content.replace(/<@.*_?>/g, '') : message.content);
+
+        // Remove URLs
+        cleanedMessage = cleanedMessage.replace(/\bhttps?:\/\/\S+/gi, '').trim();
+
+
+        
+        // Add nickname to prompt logic
+        if(process.env.ADD_NICKNAME_TO_PROMPT == 'true'){
+
+            // Add a default message with nickaname if the cleaned message is empty but there is an attachment
+            if(attachment != null && cleanedMessage === ''){   
+                cleanedMessage = dictionary[language].interactions.placeholders.emptyMessageWithImage.replace('{USER}',interaction.mentions.repliedUser.globalName).trim();
+            }else if(cleanedMessage !== ''){
+                cleanedMessage = `${interaction.mentions.repliedUser.globalName}: ${cleanedMessage}`.trim();
+            }
+        }
+        
+        if(process.env.ADD_NICKNAME_TO_PROMPT != 'true' && attachment != null && cleanedMessage === ''){
+            cleanedMessage = dictionary[language].interactions.placeholders.emptyMessageWithImage.trim();
+        }
+
+        const response = await client.character.send_message(
+            cleanedMessage,
+            false,
+            attachment != null ? attachment : undefined
+        );
 
         if (response.turn.state == 'STATE_OK') {
             switch (global.messageMode) {

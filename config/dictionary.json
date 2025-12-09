@@ -21,6 +21,10 @@
             "leave":"Leaving the voice chat.",
             "textMode":"Text mode activated.",
             "ttsMode":"TTS mode activated.",
+            "placeholders": {
+                "emptyMessageWithImage": "*Sends this image*",
+                "emptyMessageWithImageAndUser": "*${USER} sends this image*"
+            },
             "greetings": ["Sup, {USER}", "Waddup, {USER}!", "Welcome to the server, {USER}!", "Heya, {USER}!"],
             "errors":{
                 "initializeError":"An error occured while trying to initialize the CharacterAI bot, check the app logs for more details.",
@@ -32,10 +36,11 @@
                 "cannotReplyWhileInVoiceChannel":"I cannot chat with you through text messages while being on a voice channel.",
                 "modeAlreadySelected":"The mode specified is already activated.",
                 "invalidMode":"The mode specified is not valid.",
-                "missingChannel":"You must specify a channel."
+                "missingChannel":"You must specify a channel.",
+                "moreThanOneImage": "Character.AI only supports up to one image per message. Please send only one image.",
+                "unsupportedAttachmentType": "The attachment type you sent is not supported. Please send only image attachments."
             }
         }
-        
     },
     "es_UY":{
         "commandDescriptions":{
@@ -59,6 +64,10 @@
             "leave":"Saliéndose del chat de voz.",
             "textMode":"Modo texto activado.",
             "ttsMode":"Modo TTS activado.",
+            "placeholders": {
+                "emptyMessageWithImage": "*Envía esta imagen*",
+                "emptyMessageWithImageAndUser": "*{USER} envía esta imagen*"
+            },
             "greetings": ["Q onda {USER}, bienvenido a la gang", "Bienvenido a la secta {USER}", "Que tal padre {USER}, bienvenido al server", "Como andas {USER}, bienvenido", "Hey {USER}, que bueno que te uniste", "{USER} hola rey, bienvenido"],
             "errors":{
                 "initializeError":"Ha ocurrido un error mientras se intentaba inicializar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
@@ -70,9 +79,10 @@
                 "cannotReplyWhileInVoiceChannel":"No puedo conversar contigo mientras estoy en un canal de voz. Primero intenta terminar la sesión de voz con el comando /leave",
                 "modeAlreadySelected":"El modo especificado ya está activo.",
                 "invalidMode":"El modo especificado no es válido.",
-                "missingChannel":"Debes especificar un canal."
+                "missingChannel":"Debes especificar un canal.",
+                "moreThanOneImage": "Character.AI solo soporta hasta una imagen por mensaje. Por favor envía solo una imagen.",
+                "unsupportedAttachmentType": "El tipo de adjunto que enviaste no es soportado. Solamente se soportan imágenes."
             }
         }
-        
     }
 }
