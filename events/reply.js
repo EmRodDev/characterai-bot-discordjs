@@ -30,7 +30,7 @@ module.exports = {
 						if (att.contentType?.startsWith("image/")) {
 							images.push(att.url);
 						}else{
-							message.reply(dictionary[language].interactions.errors.unsupportedAttachmentType);
+							return message.reply(dictionary[language].interactions.errors.unsupportedAttachmentType);
 						}
 					});
 
