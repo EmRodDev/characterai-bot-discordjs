@@ -68,7 +68,7 @@
                 "emptyMessageWithImage": "*Envía esta imagen*",
                 "emptyMessageWithImageAndUser": "*{USER} envía esta imagen*"
             },
-            "greetings": ["Q onda {USER}, bienvenido a la gang", "Bienvenido a la secta {USER}", "Que tal padre {USER}, bienvenido al server", "Como andas {USER}, bienvenido", "Hey {USER}, que bueno que te uniste", "{USER} hola rey, bienvenido"],
+            "greetings": ["Q tal {USER}, bienvenido a la gang", "Bienvenido al server {USER}", "Que tal {USER}, bienvenido/a al server", "Como  estás {USER}, bienvenido/a", "Hey {USER}, que bueno que te uniste", "Buenas, como va todo {USER}?", "Que contás {USER}, bienvenido/a al server", "Buenas rey/reina {USER}, bienvenido/a al server", "Un saludo a {USER}, nuevo miembro de la casa milagrosa", "Cómo estás {USER}? Todo tranquilo? Bienvenido/a al server"],
             "errors":{
                 "initializeError":"Ha ocurrido un error mientras se intentaba inicializar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
                 "contactAPIError":"Ha ocurrido un error mientras se intentaba contactar al bot de CharacterAi. Revisa los logs de la app para más detalles.",
