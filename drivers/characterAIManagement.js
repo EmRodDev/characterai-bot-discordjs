@@ -1,7 +1,6 @@
 require('dotenv').config();
 const language = process.env.LANGUAGE;
 const dictionary = require('../config/dictionary.json');
-
 const { AttachmentBuilder } = require('discord.js');
 
 let client = null;
@@ -36,8 +35,9 @@ async function createAIVoiceConnection() {
         console.log('Connecting voice...');
         if(process.env.CHARACTERAI_VOICENAME){
             clientVoice = await client.voice.connect(process.env.CHARACTERAI_VOICENAME, true, true);
+        }else{
+            clientVoice = await client.voice.connect(characterInfo.default_voice_id, false, true);
         }
-        clientVoice = await client.voice.connect(characterInfo.default_voice_id, false, true);
         global.isVoiceChat = true;
     } catch (err) {
         console.error(err);
@@ -93,7 +93,7 @@ async function getReply(interaction, message, attachment = null) {
             switch (global.messageMode) {
                 case 'text':
                     const rawMessage = response.turn.candidates[0].raw_content;
-                    await interaction.edit(await rawMessage.substring(rawMessage.indexOf(':') + 1, rawMessage.length));
+                    await interaction.edit(rawMessage);
                     break;
                 case 'tts':
                     await replyWithAudio(interaction,response);
