@@ -3,7 +3,7 @@ const { joinVoiceChannel, createAudioResource, createAudioPlayer, StreamType, Au
 const prism = require('prism-media');
 const { Readable } = require('stream');
 
-const { getAIVoiceConnection, endConnection } = require('./characterAIManagement');
+const { getAIVoiceConnection, endConnection, createAIVoiceConnection } = require('./characterAIManagement');
 const { upsampleFrame, restartBot } = require('./utils');
 
 // Internal state
@@ -59,8 +59,10 @@ function setUpVoiceChatSpeaker() {
     player.play(resource);
     voiceConnection.subscribe(player);
 
-    player.on(AudioPlayerStatus.Idle, () => {
+    player.on(AudioPlayerStatus.Idle, async () => {
+        // Forces the bot to create the connection again if the stream ends as a workaround to handle some edge cases where the stream stops without reason
         console.log('[Voice] Audio player idle.');
+        await createAIVoiceConnection();
     });
 
     player.on('error', error => {
