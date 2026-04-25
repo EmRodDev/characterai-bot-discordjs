@@ -1,15 +1,25 @@
 require('dotenv').config();
 const language = process.env.LANGUAGE;
 const dictionary = require('../config/dictionary.json');
-const { AttachmentBuilder } = require('discord.js');
+const { MessageAttachment } = require('discord.js-selfbot-v13');
 
 let client = null;
 let clientVoice = null;
+let characterInfo = null;
+
+async function createCharacterClient() {
+    if (typeof global.prompt !== 'function') {
+        global.prompt = () => '';
+    }
+
+    const { CAINode } = await import('cainode');
+    return new CAINode();
+}
 
 async function createConnection() {
 
     try {
-        client = new (await (import('cainode'))).CAINode();
+        client = await createCharacterClient();
         await client.login(process.env.CHARACTERAI_TOKEN);
 
         const character = await client.character.connect(process.env.CHARACTERAI_ID);
@@ -25,7 +35,7 @@ async function createConnection() {
 async function createAIVoiceConnection() {
     try {
         console.log('Importing client...');
-        client = new (await (import('cainode'))).CAINode();
+        client = await createCharacterClient();
         console.log('Logging in...');
         await client.login(process.env.CHARACTERAI_TOKEN);
         console.log('Connecting client...');
@@ -45,13 +55,19 @@ async function createAIVoiceConnection() {
 };
 
 async function endConnection() {
+    if (!client) {
+        return;
+    }
+
     if (global.isVoiceChat == true) {
-        await clientVoice.disconnect();
+        if (clientVoice) {
+            await clientVoice.disconnect();
+        }
         clientVoice = null;
     }
 
-    await client.character.disconnect();
-    await client.logout();
+    await client.character.disconnect().catch(() => {});
+    await client.logout().catch(() => {});
 
     client = null;
     characterInfo = null;
@@ -70,12 +86,13 @@ async function getReply(interaction, message, attachment = null) {
         
         // Add nickname to prompt logic
         if(process.env.ADD_NICKNAME_TO_PROMPT == 'true'){
+            const displayName = message.member?.displayName || message.author?.globalName || message.author?.username || 'User';
 
             // Add a default message with nickaname if the cleaned message is empty but there is an attachment
             if(attachment != null && cleanedMessage === ''){   
-                cleanedMessage = dictionary[language].interactions.placeholders.emptyMessageWithImage.replace('{USER}',interaction.mentions.repliedUser.globalName).trim();
+                cleanedMessage = dictionary[language].interactions.placeholders.emptyMessageWithImage.replace('{USER}', displayName).trim();
             }else if(cleanedMessage !== ''){
-                cleanedMessage = `${interaction.mentions.repliedUser.globalName}: ${cleanedMessage}`.trim();
+                cleanedMessage = `${displayName}: ${cleanedMessage}`.trim();
             }
         }
         
@@ -133,7 +150,7 @@ async function replyWithAudio(interaction,response){
 
     const buffer = await res.arrayBuffer();
 
-    const file = new AttachmentBuilder(Buffer.from(buffer), { name: 'audio.mp3' });
+    const file = new MessageAttachment(Buffer.from(buffer), 'audio.mp3');
 
     await interaction.edit({files: [file]});
 }

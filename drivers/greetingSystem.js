@@ -37,8 +37,11 @@ module.exports = {
 
     // Save the last greeting message ID
     saveLastMessage(userId, messageId) {
+        if (!messageId) return false;
+
         const fp = filePath(messagesDir, userId);
-        fs.writeFileSync(fp, messageId);
+        fs.writeFileSync(fp, String(messageId));
+        return true;
     },
 
     // Retrieve last greeting message ID
@@ -46,6 +49,14 @@ module.exports = {
         const fp = filePath(messagesDir, userId);
         if (!fs.existsSync(fp)) return null;
         return fs.readFileSync(fp, 'utf8');
+    },
+
+    isLastMessageRecent(userId) {
+        const fp = filePath(messagesDir, userId);
+        if (!fs.existsSync(fp)) return false;
+
+        const stats = fs.statSync(fp);
+        return Date.now() - stats.mtimeMs < COOLDOWN_MS;
     },
 
     // Delete stored cooldown and message

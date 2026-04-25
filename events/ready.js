@@ -1,11 +1,10 @@
-const { Events } = require('discord.js');
-
 module.exports = {
-	name: Events.ClientReady,
+	name: 'ready',
 	once: true,
 	execute(client) {
 		global.isVoiceChat = false;
-		global.messageMode = 'text';
+		global.messageMode = process.env.DEFAULT_MESSAGE_MODE || 'text';
 		console.log(`Ready! Logged in as ${client.user.tag}`);
+		console.log(`Prefix commands enabled with "${process.env.COMMAND_PREFIX || '!'}"`);
 	},
 };

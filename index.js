@@ -6,13 +6,6 @@ createGreetingDirs();
 
 const app = new Main();
 app.loadEvents();
-app.loadCommands();
-
-(async () => {
-await app.deployCommands();
-})();
-
 app.clientLogin();
 
 setInterval(cleanupOldFiles, 60 * 60 * 1000);
-

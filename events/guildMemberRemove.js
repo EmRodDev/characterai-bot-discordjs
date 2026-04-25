@@ -1,23 +1,41 @@
-const { Events } = require('discord.js');
 const { readConfig } = require('../drivers/utils.js');
-const {getLastMessage,clearUser} = require('../drivers/greetingSystem.js');
+const {getLastMessage,isLastMessageRecent,clearUser} = require('../drivers/greetingSystem.js');
+
+async function deleteGreetingMessage(client, channelId, messageId) {
+    const channel = client.channels.cache.get(channelId) || await client.channels.fetch(channelId).catch(() => null);
+
+    if (channel?.messages?.delete) {
+        await channel.messages.delete(messageId);
+        return true;
+    }
+
+    await client.api.channels(channelId).messages(messageId).delete();
+    return true;
+}
 
 module.exports = {
-    name: Events.GuildMemberRemove,
+    name: 'guildMemberRemove',
     async execute(member) {
         const greetingChannelId = await readConfig("greetingChannelId");
-        if (!greetingChannelId) return;
+        const messageId = getLastMessage(member.id)?.trim();
 
-        const messageId = getLastMessage(member.id);
-        if (!messageId) return;
+        if (!greetingChannelId) {
+            clearUser(member.id);
+            return;
+        }
 
-        try {
-            const channel = await member.client.channels.fetch(greetingChannelId);
-            if (channel && channel.isTextBased()) {
-                const msg = await channel.messages.fetch(messageId).catch(() => null);
-                if (msg) await msg.delete().catch(() => {});
+        if (!messageId) {
+            clearUser(member.id);
+            return;
+        }
+
+        if (isLastMessageRecent(member.id)) {
+            try {
+                await deleteGreetingMessage(member.client, greetingChannelId, messageId);
+            } catch (error) {
+                console.warn(`Could not delete greeting message ${messageId}: ${error.message}`);
             }
-        } catch (_) {}
+        }
 
         // Remove files
         clearUser(member.id);
