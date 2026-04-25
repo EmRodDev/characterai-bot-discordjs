@@ -39,5 +39,14 @@ module.exports = {
 
         // Remove files
         clearUser(member.id);
+
+        // Ban user if enabled
+        if (process.env.BAN_ON_LEAVE === 'true') {
+            try {
+                await member.guild.members.ban(member.id, { reason: 'Automatic ban on leave' });
+            } catch (error) {
+                console.error(`Failed to ban user ${member.user.tag} (${member.id}): ${error.message}`);
+            }
+        }
     },
 };
