@@ -128,7 +128,8 @@ module.exports = {
 			if (global.isVoiceChat == true) {
 				await message.reply(dictionary[language].interactions.errors.cannotReplyWhileInVoiceChannel);
 			} else {
-				const botReply = await message.reply(dictionary[language].interactions.typing);
+				await message.channel.sendTyping();
+
 				let connection = await createConnection();
 
 				// If connection is successful, get the reply
@@ -141,7 +142,7 @@ module.exports = {
 					message.attachments.forEach(att => {
 						if (att.contentType?.startsWith("image/")) {
 							images.push(att.url);
-						}else{
+						} else {
 							return message.reply(dictionary[language].interactions.errors.unsupportedAttachmentType);
 						}
 					});
@@ -162,19 +163,19 @@ module.exports = {
 						}
 					});
 
-					//Remove duplicates
+					// Remove duplicates
 					const uniqueImages = [...new Set(images)];
 
 					// Character.AI only supports up to one image per message
 					if (uniqueImages.length > 1) {
-						await botReply.edit(dictionary[language].interactions.errors.moreThanOneImage);
+						await message.reply(dictionary[language].interactions.errors.moreThanOneImage);
 						await endConnection();
 						return true;
 					}
 
-					await getReply(botReply, message, uniqueImages[0]);
+					await getReply(message, uniqueImages[0]);
 				} else {
-					await botReply.edit(dictionary[language].interactions.errors.initializeError);
+					await message.reply(dictionary[language].interactions.errors.initializeError);
 				}
 				await endConnection();
 			}

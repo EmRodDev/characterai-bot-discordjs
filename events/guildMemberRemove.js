@@ -40,7 +40,7 @@ module.exports = {
         // Remove files
         clearUser(member.id);
 
-        // Ban user if enabled
+        // Ban user if enabled and they left recently (within 1 hour of joining)
         if (process.env.BAN_ON_LEAVE === 'true') {
             try {
                 await member.guild.members.ban(member.id, { reason: 'Automatic ban on leave' });

@@ -74,7 +74,7 @@ async function endConnection() {
     global.isVoiceChat = false;
 };
 
-async function getReply(interaction, message, attachment = null) {
+async function getReply(message, attachment = null) {
     try {
         // Replace mentions with empty string
         let cleanedMessage = (new RegExp('<@.*_?>').test(message.content) == true ? message.content.replace(/<@.*_?>/g, '') : message.content);
@@ -110,28 +110,28 @@ async function getReply(interaction, message, attachment = null) {
             switch (global.messageMode) {
                 case 'text':
                     const rawMessage = response.turn.candidates[0].raw_content;
-                    await interaction.edit(rawMessage);
+                    await message.reply(rawMessage);
                     break;
                 case 'tts':
-                    await replyWithAudio(interaction,response);
+                    await replyWithAudio(message, response);
                     break;
                 default:
-                    await interaction.edit(dictionary[language].interactions.errors.unexpectedError);
+                    await message.reply(dictionary[language].interactions.errors.unexpectedError);
                     throw new Error('global.messageMode not specified or invalid value');
             }
 
 
         } else {
-            await interaction.edit(dictionary[language].interactions.errors.contactAPIError);
+            await message.reply(dictionary[language].interactions.errors.contactAPIError);
             console.log(response);
         }
     } catch (err) {
-        await interaction.edit(dictionary[language].interactions.errors.unexpectedError);
+        await message.reply(dictionary[language].interactions.errors.unexpectedError);
         console.log(err);
     }
 };
 
-async function replyWithAudio(interaction,response){
+async function replyWithAudio(message,response){
     const ttsUrl = await JSON.parse(
     JSON.stringify(
         await client.character.replay_tts(
@@ -144,7 +144,7 @@ async function replyWithAudio(interaction,response){
     const res = await fetch(ttsUrl);
 
     if (!res.ok) {
-        await interaction.edit(dictionary[language].interactions.errors.unexpectedError);
+        await message.reply(dictionary[language].interactions.errors.unexpectedError);
         console.error(`Failed to fetch MP3: ${res.status} ${res.statusText}`);
     }
 
@@ -152,7 +152,7 @@ async function replyWithAudio(interaction,response){
 
     const file = new MessageAttachment(Buffer.from(buffer), 'audio.mp3');
 
-    await interaction.edit({files: [file]});
+    await message.reply({files: [file]});
 }
 
 function getAIVoiceConnection() {

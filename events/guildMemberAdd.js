@@ -34,7 +34,7 @@ module.exports = {
         const template = greetingsArray[Math.floor(Math.random() * greetingsArray.length)];
         const greetingMessage = template.replace('{USER}', `<@${newMember.id}>`);
 
-        await sleep(5000);
+        await sleep(process.env.WAIT_FOR_GREETING ?? 10000);
         const sentMessage = await greetingChannel.send(greetingMessage);
         const messageId = sentMessage?.id || greetingChannel.lastMessageId;
 

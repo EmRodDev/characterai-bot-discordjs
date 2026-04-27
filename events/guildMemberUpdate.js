@@ -27,7 +27,16 @@ module.exports = {
         const oldRoles = oldMember.roles.cache,
             newRoles = newMember.roles.cache;
 
-        const greetingChannel = await newMember.client.channels.fetch(greetingChannelId);
+        let greetingChannel;
+        try {
+            greetingChannel = await newMember.client.channels.fetch(greetingChannelId);
+        } catch (error) {
+            console.warn(`Unable to fetch greeting channel ${greetingChannelId}: ${error.message}`);
+            return;
+        }
+
+        if (!greetingChannel) return;
+
         const oldCanView = memberCanViewChannel(greetingChannel, oldMember);
         const newCanView = memberCanViewChannel(greetingChannel, newMember);
 
