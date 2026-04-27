@@ -51,6 +51,9 @@ module.exports = {
             return;
         }
 
+        // Only greet if member joined recently (within 1 hour)
+        if (Date.now() - newMember.joinedAt.getTime() > 60 * 60 * 1000) return;
+
         if (userGreetedRecently(newMember.id)) return;
 
         // Choose a random greeting template

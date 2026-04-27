@@ -110,6 +110,10 @@ async function getReply(message, attachment = null) {
             switch (global.messageMode) {
                 case 'text':
                     const rawMessage = response.turn.candidates[0].raw_content;
+                    // Add a sleep proportional to response length for realistic typing effect
+                    const responseLength = rawMessage.length;
+                    const typingDelay = Math.max(500, Math.min(5000, responseLength * 30)); // 30ms per character, between 0.5-5 seconds
+                    await new Promise(resolve => setTimeout(resolve, typingDelay));
                     await message.reply(rawMessage);
                     break;
                 case 'tts':

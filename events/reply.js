@@ -28,6 +28,10 @@ function canRunCommand(message, client) {
 	return getAllowedCommandUserIds().includes(message.author.id);
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function handleCommand(message, client) {
 	const prefix = process.env.COMMAND_PREFIX || '!';
 	if (!message.content.startsWith(prefix)) return false;
@@ -128,6 +132,7 @@ module.exports = {
 			if (global.isVoiceChat == true) {
 				await message.reply(dictionary[language].interactions.errors.cannotReplyWhileInVoiceChannel);
 			} else {
+				await sleep(Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000); // Wait a moment to make the reply feel more natural
 				await message.channel.sendTyping();
 
 				let connection = await createConnection();
