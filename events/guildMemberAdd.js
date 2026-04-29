@@ -35,6 +35,14 @@ module.exports = {
         const greetingMessage = template.replace('{USER}', `<@${newMember.id}>`);
 
         await sleep(process.env.WAIT_FOR_GREETING ?? 10000);
+        
+        // Check if user is still on the server after the delay
+        const memberStillInGuild = await newMember.guild.members.fetch(newMember.id).catch(() => null);
+        if (!memberStillInGuild) {
+            // User has left, skip greeting and let the ban logic handle it
+            return;
+        }
+        
         const sentMessage = await greetingChannel.send(greetingMessage);
         const messageId = sentMessage?.id || greetingChannel.lastMessageId;
 
