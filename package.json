@@ -2,7 +2,7 @@
   "type": "commonjs",
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
-    "@discordjs/voice": "^0.18.0",
+    "@discordjs/voice": "^0.19.2",
     "audio-encoder": "^1.0.4",
     "cainode": "^1.2.3",
     "discord.js": "^14.19.3",

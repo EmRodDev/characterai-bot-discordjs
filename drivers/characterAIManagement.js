@@ -38,20 +38,32 @@ async function createAIVoiceConnection() {
         }else{
             clientVoice = await client.voice.connect(characterInfo.default_voice_id, false, true);
         }
+        if (!clientVoice) {
+            throw new Error('Character.AI did not return a voice connection');
+        }
         global.isVoiceChat = true;
+        return clientVoice;
     } catch (err) {
         console.error(err);
+        try {
+            await endConnection();
+        } catch (cleanupError) {
+            console.error('Failed to clean up the Character.AI voice client:', cleanupError);
+        }
+        throw err;
     }
 };
 
 async function endConnection() {
-    if (global.isVoiceChat == true) {
+    if (global.isVoiceChat == true && clientVoice) {
         await clientVoice.disconnect();
         clientVoice = null;
     }
 
-    await client.character.disconnect();
-    await client.logout();
+    if (client) {
+        await client.character.disconnect();
+        await client.logout();
+    }
 
     client = null;
     characterInfo = null;

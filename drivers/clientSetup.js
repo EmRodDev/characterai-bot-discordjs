@@ -11,6 +11,12 @@ const client = new Client({ intents: [
     GatewayIntentBits.GuildVoiceStates
 ] });
 
+// Do not let an operational Discord error terminate the process through an
+// unhandled EventEmitter `error` event.
+client.on('error', error => {
+    console.error('Discord client error:', error);
+});
+
 client.commands = new Collection();
 let commands = [];
 
